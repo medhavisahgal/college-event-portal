@@ -1,59 +1,84 @@
-//imported react and useState from react library , we will use useState to manage the state or storing the input data in the memory of the component
+//Importing useEffect to fetch data from firebase and useState to manage state
 import React, { useEffect, useState } from 'react';
+// Importing Firebase functions to interact with Firestore database
+// Importing collection to get a collection of documents, addDoc to add a new document, getDocs to fetch documents, deleteDoc to delete a document, and doc to reference a specific document
 import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
+// Importing db from firebase.js to connect to the Firestore database
 import { db } from '../firebase';
+// Importing CreateEventForm component to create a new event
 import CreateEventForm from './CreateEventForm';
+// Importing EventList component to display the list of events
 import EventList from './EventList';
-
-//create a functional component named CreateEvent which will return a html(jsx) structure of the form to create an event
-//and also a list of events created by the user
+//Creating a functional component CreateEvent
+// This component is responsible for creating new events and displaying the list of existing events
+// It uses Firebase Firestore to store and retrieve event data
+// It also uses React hooks to manage state and side effects
 function CreateEvent() {
-    //events is a state variable which will store the list of events created by the user
-    //setEvents is a function which will set the value of events
-    //After a new event is created a new event object is created and pushed to the events array
-    //initial value of events is an empty array
+    // useState hook to manage the state of events
+    // events is the state variable that holds the list of events
+    // setEvents is the function to update the state variable
+    // useState initializes the events state variable to an empty array
+    // This array will be populated with event data fetched from Firestore
     const [events, setEvents] = useState([]);
-    //useEffect is a hook which will run the function inside it when the component is mounted
-    //it will fetch the events from the firestore database and set the value of events to the list of events fetched from the database
+    // useEffect hook to fetch events from Firestore when the component mounts
+    // The empty dependency array [] means this effect runs only once when the component mounts
+    // It calls the fetchEvents function to get the list of events from Firestore
     useEffect(() => {
         fetchEvents();
     }, []);
-
+    // Function to fetch events from Firestore
+    // It uses getDocs to retrieve all documents from the "events" collection in Firestore
     const fetchEvents = async () => {
+        // try-catch block to handle errors while fetching events
         try {
+            // getDocs retrieves all documents from the "events" collection
+            // collection(db, "events") specifies the collection to fetch from
+            // querySnapshot contains the results of the query
             const querySnapshot = await getDocs(collection(db, "events"));
+            // map function to transform the querySnapshot into an array of event objects
+            // Each event object contains the document ID and the data from Firestore
             const eventsList = querySnapshot.docs.map(doc => ({
                 id: doc.id,
+                // doc.data() retrieves the data from the document
                 ...doc.data()
             }));
+            // setEvents updates the state variable with the fetched events
+            // This will trigger a re-render of the component with the new events data
+            // The eventsList array contains all the events fetched from Firestore
             setEvents(eventsList);
         } catch (error) {
             console.error("Error fetching events:", error);
             alert('Something went wrong while fetching events!');
         }
     };
-
-    //handlesubmit is a function which will be called when the form is submitted
-    //async is used to make the function asynchronous so that we can use await keyword inside the function
-    //await is used to wait for the addDoc function to complete before moving to the next line of code
-    //addDoc is a function which will add the new event object to the events collection in the firestore database
-    //collection is a function which will return a reference to the events collection in the firestore database
+// Function to handle adding a new event
+// It takes eventData as an argument, which contains the data for the new event
+// It uses addDoc to add the new event to the "events" collection in Firestore
+// The addDoc function takes two arguments: the collection reference and the event data
     const handleAddEvent = async (eventData) => {
         try {
+            // addDoc adds a new document to the "events" collection with the provided eventData
+            // collection(db, "events") specifies the collection to add the document to
+            // eventData contains the data for the new event
+            // The new document will be created with a unique ID generated by Firestore
             await addDoc(collection(db, "events"), eventData);
-            fetchEvents(); // Refresh the list after adding
+            // After adding the event, fetch the updated list of events from Firestore
+            fetchEvents();
             alert('Event Created Successfully!');
         } catch (error) {
             console.error("Error adding event: ", error);
             alert('Something went wrong! Please try again.');
         }
     };
-
-    //handleDelete is a function which will be called when the user wants to delete an event
-    //eventId is the id of the event to be deleted
+// Function to handle deleting an event
+// It takes eventId as an argument, which is the ID of the event to be deleted
     const handleDeleteEvent = async (eventId) => {
         try {
+            // deleteDoc deletes the document with the specified ID from the "events" collection
+            // doc(db, "events", eventId) creates a reference to the document to be deleted
             await deleteDoc(doc(db, "events", eventId));
+            //setEvents updates the state variable by filtering out the deleted event
+            // This will trigger a re-render of the component with the updated events list
             setEvents(events.filter(event => event.id !== eventId));
             alert('Event deleted successfully!');
         } catch (error) {
@@ -62,14 +87,33 @@ function CreateEvent() {
         }
     };
 
+    // Returning the JSX to render the CreateEvent component
+    // The component includes a form to create a new event and a list to display existing events
     return (
-        <div style={{ padding: "20px", backgroundColor: "#f0f0f0", borderRadius: "10px" }}>
+        <div 
+            style={{ 
+                padding: "20px", // Adding padding around the container
+                backgroundColor: "#f0f0f0", // Setting a light gray background color
+                borderRadius: "10px" // Adding rounded corners to the container
+            }}
+        >
+            {/* Heading for the Create Event section */}
             <h2>Create New Event</h2>
+            
+            {/* Rendering the CreateEventForm component */}
+            {/* Passing the handleAddEvent function as a prop to handle adding new events */}
             <CreateEventForm onAddEvent={handleAddEvent} />
+            
+            {/* Heading for the Event List section */}
             <h2>Event List</h2>
+            
+            {/* Rendering the EventList component */}
+            {/* Passing the events state and handleDeleteEvent function as props */}
+            {/* events contains the list of events to display */}
+            {/* handleDeleteEvent is used to delete an event when triggered */}
             <EventList events={events} onDeleteEvent={handleDeleteEvent} />
         </div>
     );
 }
 
-export default CreateEvent; 
+export default CreateEvent;
