@@ -1,4 +1,4 @@
-import CreateEvent from "./components/CreateEvent"; 
+import CreateEvent from "./components/CreateEvent.js"; 
 function App() {
   return (
    <div>
