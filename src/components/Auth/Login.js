@@ -21,7 +21,8 @@ export default function Login() {
         }
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            navigate('/');
+            console.log('Login successful');
+            navigate('/create');
         } catch (error) {
             setError('Invalid email or password. Please try again.');
         } finally {
