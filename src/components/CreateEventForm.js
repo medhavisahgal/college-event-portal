@@ -57,88 +57,148 @@ function CreateEventForm({ onAddEvent }) {
         // Render the event creation form
         <form onSubmit={handleSubmit}>
             {/* Input for event name */}
-            <input 
-                type="text" 
-                className='form-control mb-2' 
-                placeholder="Event Name" 
-                value={eventName} 
-                onChange={(e) => setEventName(e.target.value)} 
-                required 
+            <input
+                type="text"
+                placeholder="Event Name"
+                value={eventName}
+                onChange={(e) => setEventName(e.target.value)}
+                required
+                style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    marginBottom: '1rem',
+                    border: '1px solid #d1d5db',
+                    borderRadius: 4
+                }}
             />
             {/* Input for event date */}
-            <input 
-                className='form-control mb-2' 
-                type="date" 
-                value={eventDate} 
-                onChange={(e) => setEventDate(e.target.value)} 
-                required 
+            <input
+                type="date"
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+                required
+                style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    marginBottom: '1rem',
+                    border: '1px solid #d1d5db',
+                    borderRadius: 4
+                }}
             />
             {/* Input for event time */}
-            <input 
-                className='form-control mb-2' 
-                type="time" 
-                value={eventTime} 
-                onChange={(e) => setEventTime(e.target.value)} 
-                required 
+            <input
+                type="time"
+                value={eventTime}
+                onChange={(e) => setEventTime(e.target.value)}
+                required
+                style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    marginBottom: '1rem',
+                    border: '1px solid #d1d5db',
+                    borderRadius: 4
+                }}
             />
             {/* Input for event location */}
-            <input 
-                className='form-control mb-2' 
-                type="text" 
-                placeholder="Event Location" 
-                value={eventLocation} 
-                onChange={(e) => setEventLocation(e.target.value)} 
-                required 
+            <input
+                type="text"
+                placeholder="Event Location"
+                value={eventLocation}
+                onChange={(e) => setEventLocation(e.target.value)}
+                required
+                style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    marginBottom: '1rem',
+                    border: '1px solid #d1d5db',
+                    borderRadius: 4
+                }}
             />
             {/* Textarea for event description */}
-            <textarea 
-                className='form-control mb-2' 
-                placeholder="Event Description" 
-                value={eventDescription} 
-                onChange={(e) => setEventDescription(e.target.value)} 
-                required 
+            <textarea
+                placeholder="Event Description"
+                value={eventDescription}
+                onChange={(e) => setEventDescription(e.target.value)}
+                required
+                style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    marginBottom: '1rem',
+                    border: '1px solid #d1d5db',
+                    borderRadius: 4
+                }}
             />
             {/* Input for organizer name */}
-            <input 
-                className='form-control mb-2' 
-                type="text" 
-                placeholder="Event Organizer" 
-                value={eventOrganizer} 
-                onChange={(e) => setEventOrganizer(e.target.value)} 
-                required 
+            <input
+                type="text"
+                placeholder="Event Organizer"
+                value={eventOrganizer}
+                onChange={(e) => setEventOrganizer(e.target.value)}
+                required
+                style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    marginBottom: '1rem',
+                    border: '1px solid #d1d5db',
+                    borderRadius: 4
+                }}
             />
             {/* Input for contact info */}
-            <input 
-                className='form-control mb-2' 
-                type="text" 
-                placeholder="Event Contact" 
-                value={eventContact} 
-                onChange={(e) => setEventContact(e.target.value)} 
-                required 
+            <input
+                type="text"
+                placeholder="Event Contact"
+                value={eventContact}
+                onChange={(e) => setEventContact(e.target.value)}
+                required
+                style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    marginBottom: '1rem',
+                    border: '1px solid #d1d5db',
+                    borderRadius: 4
+                }}
             />
             {/* Input for uploading event image */}
-            <input 
-                className='form-control mb-2' 
-                type="file" 
-                accept='image/*' 
-                onChange={handleImageupload} 
-                required 
+            <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageupload}
+                required
+                style={{
+                    marginBottom: '1rem'
+                }}
             />
             {/* Input for registration link */}
-            <input 
-                className='form-control mb-2' 
-                type="text" 
-                placeholder="Event Registration Link" 
-                value={eventRegistrationLink} 
-                onChange={(e) => setEventRegistrationLink(e.target.value)} 
-                required 
+            <input
+                type="text"
+                placeholder="Event Registration Link"
+                value={eventRegistrationLink}
+                onChange={(e) => setEventRegistrationLink(e.target.value)}
+                required
+                style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    marginBottom: '1.5rem',
+                    border: '1px solid #d1d5db',
+                    borderRadius: 4
+                }}
             />
             {/* Submit button */}
-            <button 
-                className='form-control mb-2' 
+            <button
                 type="submit"
+                style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    background: '#19c94a',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: 4,
+                    fontWeight: 'bold',
+                    fontSize: '1rem',
+                    cursor: 'pointer'
+                }}
             >
-                Add Event
+                Create Event
             </button>
         </form>
     );

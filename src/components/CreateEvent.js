@@ -9,6 +9,9 @@ import { db } from '../firebase';
 import CreateEventForm from './CreateEventForm';
 // Importing EventList component to display the list of events
 import EventList from './EventList';
+// Importing Firebase functions to handle authentication
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 //Creating a functional component CreateEvent
 // This component is responsible for creating new events and displaying the list of existing events
 // It uses Firebase Firestore to store and retrieve event data
@@ -87,6 +90,11 @@ function CreateEvent() {
         }
     };
 
+    // Function to handle logout
+    function handleLogout() {
+        signOut(auth);
+    }
+
     // Returning the JSX to render the CreateEvent component
     // The component includes a form to create a new event and a list to display existing events
     return (
@@ -94,9 +102,24 @@ function CreateEvent() {
             style={{ 
                 padding: "20px", // Adding padding around the container
                 backgroundColor: "#f0f0f0", // Setting a light gray background color
-                borderRadius: "10px" // Adding rounded corners to the container
+                borderRadius: "10px", // Adding rounded corners to the container
+                paddingBottom: '2rem'
             }}
         >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>KIIT Event Dashboard</span>
+                <button onClick={handleLogout} style={{
+                    background: '#fff',
+                    color: '#19c94a',
+                    border: '1px solid #19c94a',
+                    borderRadius: 4,
+                    padding: '0.3rem 1rem',
+                    fontWeight: 'bold',
+                    cursor: 'pointer'
+                }}>
+                    Logout
+                </button>
+            </div>
             {/* Heading for the Create Event section */}
             <h2>Create New Event</h2>
             
