@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import KiitLogo from '../../assets/images/kiit-logo.png';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [selectedRole, setSelectedRole] = useState('user');
     const navigate = useNavigate();
+    const db = getFirestore();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,29 +24,62 @@ export default function Login() {
             return;
         }
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            console.log('Login successful');
-            navigate('/create');
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            const userDocRef = doc(db, 'users', user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+
+            let userRole = 'user';
+            if (userDocSnap.exists()) {
+                const userData = userDocSnap.data();
+                if (userData.role) {
+                    userRole = userData.role;
+                } else {
+                    console.warn(`No role found for user ${user.uid}. Defaulting to 'user'.`);
+                }
+            } else {
+                console.warn(`No user document found for user ${user.uid}. Defaulting to 'user'.`);
+            }
+
+            console.log('Login successful, user role:', userRole);
+
+            navigate('/dashboard', { state: { userRole: userRole } });
+
         } catch (error) {
             setError('Invalid email or password. Please try again.');
+            console.error("Login error:", error);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div style={{ minHeight: '100vh', background: '#f5f5f5' }}>
+        <div style={{ minHeight: '100vh', background: '#19c94a' }}>
             {/* Header Bar */}
             <div style={{
-                background: '#19c94a',
-                color: 'white',
-                padding: '1rem 0',
+                background: 'white',
+                color: '#19c94a',
+                padding: '1rem 2rem',
                 textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: '1.2rem',
-                letterSpacing: '1px'
+                letterSpacing: '1px',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '1rem'
             }}>
-                KALINGA INSTITUTE OF INDUSTRIAL TECHNOLOGY
+                <img
+                    src={KiitLogo}
+                    alt="KIIT Logo"
+                    style={{
+                        height: '60px',
+                        width: 'auto',
+                    }}
+                />
+                <span>KALINGA INSTITUTE OF INDUSTRIAL TECHNOLOGY</span>
             </div>
 
             {/* Login Card */}
@@ -57,8 +94,9 @@ export default function Login() {
                 <h2 style={{
                     color: '#19c94a',
                     textAlign: 'center',
-                    marginBottom: '1rem',
-                    fontWeight: 'bold'
+                    marginBottom: '1.5rem',
+                    fontWeight: 'bold',
+                    fontSize: '1.5rem'
                 }}>
                     KIIT Event Portal
                 </h2>
@@ -103,6 +141,25 @@ export default function Login() {
                             borderRadius: 4
                         }}
                     />
+
+                    <p style={{ marginBottom: '0.5rem', color: '#333', fontSize: '0.9rem' }}>Select Role (For Demo):</p>
+                    <select
+                        value={selectedRole}
+                        onChange={(e) => setSelectedRole(e.target.value)}
+                        style={{
+                            width: '100%',
+                            padding: '0.5rem',
+                            marginBottom: '1rem',
+                            border: '1px solid #d1d5db',
+                            borderRadius: 4,
+                            backgroundColor: 'white',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+
                     <button
                         type="submit"
                         disabled={loading}

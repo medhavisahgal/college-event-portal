@@ -7,11 +7,10 @@ import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../firebase';
 // Importing CreateEventForm component to create a new event
 import CreateEventForm from './CreateEventForm';
-// Importing EventList component to display the list of events
+// Importing EventList component to display the list of existing events
 import EventList from './EventList';
-// Importing Firebase functions to handle authentication
-import { signOut } from 'firebase/auth';
-import { auth } from '../firebase';
+// Importing useNavigate from react-router-dom to handle navigation
+import { useNavigate } from 'react-router-dom';
 //Creating a functional component CreateEvent
 // This component is responsible for creating new events and displaying the list of existing events
 // It uses Firebase Firestore to store and retrieve event data
@@ -26,9 +25,12 @@ function CreateEvent() {
     // useEffect hook to fetch events from Firestore when the component mounts
     // The empty dependency array [] means this effect runs only once when the component mounts
     // It calls the fetchEvents function to get the list of events from Firestore
+    const navigate = useNavigate();
+
     useEffect(() => {
         fetchEvents();
     }, []);
+
     // Function to fetch events from Firestore
     // It uses getDocs to retrieve all documents from the "events" collection in Firestore
     const fetchEvents = async () => {
@@ -92,22 +94,31 @@ function CreateEvent() {
 
     // Function to handle logout
     function handleLogout() {
-        signOut(auth);
+        navigate('/logout');
     }
 
     // Returning the JSX to render the CreateEvent component
     // The component includes a form to create a new event and a list to display existing events
     return (
-        <div 
-            style={{ 
-                padding: "20px", // Adding padding around the container
-                backgroundColor: "#f0f0f0", // Setting a light gray background color
-                borderRadius: "10px", // Adding rounded corners to the container
-                paddingBottom: '2rem'
+        <div
+            style={{
+                minHeight: '100vh', // Ensure it takes at least the full viewport height
+                background: '#f5f5f5', // Light grey background for the whole page
+                padding: '2rem' // Add padding around the content
             }}
         >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>KIIT Event Dashboard</span>
+            {/* Header/Dashboard Title Bar */}
+            <div style={{
+                 display: 'flex',
+                 justifyContent: 'space-between',
+                 alignItems: 'center',
+                 background: 'white', // White background for the title bar
+                 padding: '1rem 2rem',
+                 borderRadius: '8px', // Rounded corners
+                 boxShadow: '0 2px 8px rgba(0,0,0,0.08)', // Subtle shadow
+                 marginBottom: '2rem' // Space below the title bar
+            }}>
+                <span style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#19c94a' }}>KIIT Event Dashboard</span>
                 <button onClick={handleLogout} style={{
                     background: '#fff',
                     color: '#19c94a',
@@ -115,26 +126,46 @@ function CreateEvent() {
                     borderRadius: 4,
                     padding: '0.3rem 1rem',
                     fontWeight: 'bold',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    fontSize: '1rem' // Adjusted font size
                 }}>
                     Logout
                 </button>
             </div>
-            {/* Heading for the Create Event section */}
-            <h2>Create New Event</h2>
-            
-            {/* Rendering the CreateEventForm component */}
-            {/* Passing the handleAddEvent function as a prop to handle adding new events */}
-            <CreateEventForm onAddEvent={handleAddEvent} />
-            
-            {/* Heading for the Event List section */}
-            <h2>Event List</h2>
-            
-            {/* Rendering the EventList component */}
-            {/* Passing the events state and handleDeleteEvent function as props */}
-            {/* events contains the list of events to display */}
-            {/* handleDeleteEvent is used to delete an event when triggered */}
-            <EventList events={events} onDeleteEvent={handleDeleteEvent} />
+
+            {/* Create Event Section */}
+            <div style={{
+                background: 'white', // White background for the form section
+                padding: '2rem',
+                borderRadius: '8px', // Rounded corners
+                boxShadow: '0 2px 8px rgba(0,0,0,0.08)', // Subtle shadow
+                marginBottom: '2rem' // Space below the form section
+            }}>
+                {/* Heading for the Create Event section */}
+                <h2 style={{ color: '#19c94a', textAlign: 'center', marginBottom: '1.5rem', fontWeight: 'bold', fontSize: '1.5rem' }}>Create New Event</h2>
+
+                {/* Rendering the CreateEventForm component */}
+                {/* Passing the handleAddEvent function as a prop to handle adding new events */}
+                <CreateEventForm onAddEvent={handleAddEvent} />
+            </div>
+
+
+            {/* Event List Section */}
+             <div style={{
+                background: 'white', // White background for the list section
+                padding: '2rem',
+                borderRadius: '8px', // Rounded corners
+                boxShadow: '0 2px 8px rgba(0,0,0,0.08)', // Subtle shadow
+            }}>
+                {/* Heading for the Event List section */}
+                <h2 style={{ color: '#19c94a', textAlign: 'center', marginBottom: '1.5rem', fontWeight: 'bold', fontSize: '1.5rem' }}>Event List</h2>
+
+                {/* Rendering the EventList component */}
+                {/* Passing the events state and handleDeleteEvent function as props */}
+                {/* events contains the list of events to display */}
+                {/* handleDeleteEvent is used to delete an event when triggered */}
+                <EventList events={events} onDeleteEvent={handleDeleteEvent} />
+            </div>
         </div>
     );
 }

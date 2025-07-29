@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import KiitLogo from '../../assets/images/kiit-logo.png';
 
 export default function Signup() {
   // State for form fields and feedback
@@ -50,17 +51,31 @@ export default function Signup() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f5f5' }}>
+    <div style={{ minHeight: '100vh', background: '#19c94a' }}>
+      {/* Header Bar */}
       <div style={{
-        background: '#19c94a',
-        color: 'white',
-        padding: '1rem 0',
+        background: 'white',
+        color: '#19c94a',
+        padding: '1rem 2rem',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: '1.2rem',
-        letterSpacing: '1px'
+        letterSpacing: '1px',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '1rem'
       }}>
-        KALINGA INSTITUTE OF INDUSTRIAL TECHNOLOGY
+        <img
+          src={KiitLogo}
+          alt="KIIT Logo"
+          style={{
+            height: '60px',
+            width: 'auto',
+          }}
+        />
+        <span>KALINGA INSTITUTE OF INDUSTRIAL TECHNOLOGY</span>
       </div>
       <div style={{
         maxWidth: 400,
@@ -73,10 +88,11 @@ export default function Signup() {
         <h2 style={{
           color: '#19c94a',
           textAlign: 'center',
-          marginBottom: '1rem',
-          fontWeight: 'bold'
+          marginBottom: '1.5rem',
+          fontWeight: 'bold',
+          fontSize: '1.5rem'
         }}>
-          Signup
+          Create Account
         </h2>
         <form onSubmit={handleSubmit}>
           {error && (
