@@ -10,7 +10,6 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [selectedRole, setSelectedRole] = useState('user');
     const navigate = useNavigate();
     const db = getFirestore();
 
@@ -141,24 +140,6 @@ export default function Login() {
                             borderRadius: 4
                         }}
                     />
-
-                    <p style={{ marginBottom: '0.5rem', color: '#333', fontSize: '0.9rem' }}>Select Role (For Demo):</p>
-                    <select
-                        value={selectedRole}
-                        onChange={(e) => setSelectedRole(e.target.value)}
-                        style={{
-                            width: '100%',
-                            padding: '0.5rem',
-                            marginBottom: '1rem',
-                            border: '1px solid #d1d5db',
-                            borderRadius: 4,
-                            backgroundColor: 'white',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                    </select>
 
                     <button
                         type="submit"

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, deleteDoc, doc, addDoc } from 'firebase/firestore'; // Import necessary Firestore functions
+import { collection, getDocs, deleteDoc, doc, addDoc, getDoc } from 'firebase/firestore'; // Import necessary Firestore functions
 import { db, auth } from '../firebase';
 import EventList from './EventList';
 import CreateEventForm from './CreateEventForm'; // We'll need the form for the modal
@@ -26,7 +26,7 @@ function Dashboard() {
         }
         try {
             const userDocRef = doc(db, 'users', uid);
-            const userDocSnap = await getDocs(userDocRef);
+            const userDocSnap = await getDoc(userDocRef);
 
             let role = 'user'; // Default role is user
             if (userDocSnap.exists()) {
