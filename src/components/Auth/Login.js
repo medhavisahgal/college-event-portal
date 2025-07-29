@@ -4,7 +4,6 @@ import { auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import KiitLogo from '../../assets/images/kiit-logo.png';
-
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
