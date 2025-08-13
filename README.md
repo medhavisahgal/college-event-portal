@@ -37,18 +37,12 @@ A modern, role-based event management system built for KIIT University students 
 
 ## 🚀 Getting Started
 
-### Prerequisites
-
-- Node.js (v14 or higher)
-- npm or yarn
-- Firebase account
-
 ### Installation
 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/college-event-portal.git
+   git clone https://github.com/medhavisahgal/college-event-portal.git
    cd college-event-portal
    ```
 
@@ -221,23 +215,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👨‍💻 Author
 
-**Your Name** - [GitHub Profile](https://github.com/yourusername)
-
-## 🙏 Acknowledgments
-
-- KIIT University for the project inspiration
-- Firebase team for the excellent BaaS platform
-- React community for the amazing framework
-- Bootstrap for the responsive CSS framework
-
-## 📞 Support
-
-If you have any questions or need help with the project:
-
-- Create an [Issue](https://github.com/yourusername/college-event-portal/issues)
-- Contact: your.email@example.com
-- Project Link: [https://github.com/yourusername/college-event-portal](https://github.com/yourusername/college-event-portal)
-
----
+**Medhavi Sahgal** - [GitHub Profile](https://github.com/medhavisahgal)
 
 ⭐ **Star this repository if you found it helpful!**
